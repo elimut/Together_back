@@ -8,7 +8,7 @@ const bodyParser = require("body-parser");
 const app = express();
 
 // port sur lequel nous allons démarrer notre API REST par la suite
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 
 // tests endpoints
 // app.get('/', (req, res) => res.send('Hello express'));
@@ -30,5 +30,5 @@ require("./src/routes/user/findUser")(app);
 require("./src/routes/user/findAllUser")(app);
 
 
-// démarre API REST sur port 3000
+// démarre API REST sur port 8080
 app.listen(port, () => console.log(`Notre appli Node est démarrée sur : http://localhost: ${port}`));

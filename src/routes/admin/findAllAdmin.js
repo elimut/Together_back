@@ -1,11 +1,16 @@
-const { Admin } = require("../../DB/sequelize");
+const { Admin } = require('../../DB/sequelize')
 // const auth = require("../auth/auth");
 const { Op } = require('sequelize');
   
 module.exports = (app) => {
-  app.get('/admins', (req, res) => {
+  app.get('/admins',(req, res) => {
+    // passer middleware auth en deuxième argument de la route pour sécurisation
+
     if(req.query.username) {
+
       const username = req.query.username;
+      // const limitUser = parseInt(req.query.limit);
+      // (limitUser != 5)? limitUser : limitUser = 5;
       const limitUser = parseInt(req.query.limit) || 5; //tuto, vérifier ternaire
 
       if(username.length < 2){
@@ -25,11 +30,19 @@ module.exports = (app) => {
         limit: limitUser
       })
       .then(({count, rows}) => {
-        const message =  `Il ya ${count} administrateurs qui correpondent au terme de la recherche ${username}`;
+        const message =  `Il ya ${count} administrateurs qui correspondent au terme de la recherche ${username}`;
+        rows = rows.map(rows => 
+        ({id: rows.id, username: rows.username}))
         res.json({ message, data: rows});
       })
       // on récupère les deux informations retournées par la méthode. Paramètres imposés par findAndCountAll, on récupère donc les var count et rows à la place de pokémons.
-    } else {
+    } else if(req.query.password) {
+
+      const message = "Vous ne pouvez pas accèder à cette ressource. Réessayez.";
+        return res.status(400).json({ message});
+
+    } else{
+
     Admin.findAll({ order: ['username'] })
     // findAll retourne une promesse = requête que Sequelize va effectuer à la bdd => échoue ou réussit
       .then(admins => {
@@ -37,7 +50,7 @@ module.exports = (app) => {
         res.json({ message, data: admins });
       })
       .catch(error => {
-        const message = "La liste des administrateurs n'a pas pu être chargée. Réessayez dans quelques instants.";
+        const message = "La liste des adminsitrateurs n'a pas pu être chargée. Réessayez dans quelques instants.";
         res.status(500).json({ message, data: error});
       });
       // interception des erreurs avec la méthode catch des promesses de JS. Une fois capturée il reste à retourner un message d'erreur 
