@@ -1,6 +1,6 @@
-const { Sequelize, DataTypes } = require('sequelize')
-const AdminModel = require('../models/admin')
-const UserModel = require('../models/user')
+const { Sequelize, DataTypes } = require('sequelize');
+const UserModel = require('../models/user');
+const RoleModel = require('../models/role');
   
 const sequelize = new Sequelize('together', 'root', 'password', {
   host: 'localhost',
@@ -9,15 +9,15 @@ const sequelize = new Sequelize('together', 'root', 'password', {
     timezone: 'Etc/GMT-2',
   },
   logging: false
-})
+});
 
 
-const Admin = AdminModel(sequelize, DataTypes)
-const User = UserModel(sequelize, DataTypes)
+const User = UserModel(sequelize, DataTypes);
+const Role = RoleModel(sequelize, DataTypes);
 // instance user auprès de sequelize
   
 module.exports = { 
-  Admin, User
+  User, Role
 }
 // export de la fonction initDB qui permet d'initialiser la bdd et model sequelize Pokemon pour s'en servir ailleurs dans le code.
 

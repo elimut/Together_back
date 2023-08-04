@@ -1,4 +1,5 @@
 const { User } = require('../../DB/sequelize');
+const { Role } = require('../../DB/sequelize');
 // const auth = require("../auth/auth");
   
 module.exports = (app) => {
@@ -12,9 +13,9 @@ module.exports = (app) => {
         return res.status(404).json({ message });
         // API Rest fonctionnera correctement du point de vue du client, car vous lui fournirez bien la réponse demandée, mais vous introduisiez dans votre code des effets de bord peu désirables car voir res.json js continue de s'exécuter l15. return => interruption du traitement en cours
       }
-
         const message = `Un utilisateur a bien été trouvé.`;
-        res.json({ message, data: user });
+        Role.get
+        res.json({ message, id: user.id, nom: user.nom, prénom: user.prénom, création: user.created, username: user.nom_utilisateur, mail: user.email });
     })
       .catch(error => {
         const message = `L' utilisateur n'a pas pu être récupéré. Réessayez dans quelques instants.`;

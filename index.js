@@ -1,6 +1,5 @@
 // Récupération express
 const express = require("express");
-const sequelize = require('./src/DB/sequelize');
 const bodyParser = require("body-parser");
 
 // Creating an instance of the Express application

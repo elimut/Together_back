@@ -1,7 +1,7 @@
 const { Admin } = require('../../DB/sequelize');
 const { User } = require('../../DB/sequelize');
 const { ValidationError, UniqueConstraintError } = require('sequelize');
-const admin = require('../../models/admin');
+const admin = require('../../models/user');
 // const auth = require("../auth/auth");
   
 module.exports = (app) => {
