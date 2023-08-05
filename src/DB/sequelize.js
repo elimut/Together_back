@@ -11,6 +11,11 @@ const sequelize = new Sequelize('together', 'root', 'password', {
   logging: false
 });
 
+sequelize.authenticate().then(() => {
+  console.log('Connection ok');
+}).catch((error) => {
+  console.log('connection enable', error);
+});
 
 const User = UserModel(sequelize, DataTypes);
 const Role = RoleModel(sequelize, DataTypes);

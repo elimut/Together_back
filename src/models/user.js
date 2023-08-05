@@ -1,3 +1,6 @@
+const Role  = require('./role');
+const { sequelize } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     id: {
@@ -44,21 +47,40 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: { msg: "Le nom d'utilisateur ne peut pas être vide."},
-        notNull: {msg: "Le nom d'utilisateur est une propriété requise."}
+        notNull: {msg: "Le nom d'utilisateur est une propriété requise."},
+        // is: {/^\w{3,}$/}
       }
     },
     password: {
       type: DataTypes.STRING
     },
-    // role_id: {
-    //   type: DataTypes.INTEGER
-    // }
+    role_id: {
+      type: DataTypes.INTEGER
+    }
   },{
       timestamps: true,
       createdAt: 'created',
       updatedAt: 'created'
     }
   );
-  User.belongsTo(Role);
+  // User.belongsTo(Role, {
+  //   foreignKey: 'role_id',
+  //   targetKey: 'id'
+  // });
+  // User.belongsTo(Role, {
+  //   foreignKey: 'role_id',
+  //   targetKey: 'id'
+  // });
+  User.associate = (models) => {
+    User.belongsTo(models.Role, {foreignKey: 'id'});
+  };
   return User;
 }
+
+
+
+// validate: {
+//   // We require usernames to have length of at least 3, and
+//   // only use letters, numbers and underscores.
+//   is: /^\w{3,}$/
+// }
