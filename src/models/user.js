@@ -51,35 +51,39 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     password: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
     role_id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-          model: Role,
-          key: 'id'
-        }
-    },{
+        allowNull: false
+    }
+  },{
       timestamps: true,
       createdAt: 'created',
       updatedAt: 'created'
     }
-  })
-
-  // User.belongsTo(Role, {
-  //   foreignKey: 'role_id',
-  //   targetKey: 'id'
-  // });
-  // User.belongsTo(Role, {
-  //   foreignKey: 'role_id',
-  //   targetKey: 'id'
-  // });
-  User.associate = (models) => {
-    User.belongsTo(models.Role, {foreignKey: 'id'});
-  };
+  );
+    User.associate = (models) => {
+      User.belongsTo(models.Role, {
+        as: 'role_id'});
+        Role.hasOne(User);
+      
+    }
+  
   return User;
-}
+};
+  // User.belongsTo(Role, {
+  //   foreignKey: 'role_id',
+  //   targetKey: 'id'
+  // });
+  // User.belongsTo(Role, {
+  //   foreignKey: 'role_id',
+  //   targetKey: 'id'
+  // });
+ 
+
+  
 
 
 
