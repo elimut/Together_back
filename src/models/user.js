@@ -1,5 +1,5 @@
 const Role  = require('./role');
-const { sequelize } = require('sequelize');
+// const { sequelize } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
@@ -11,7 +11,6 @@ module.exports = (sequelize, DataTypes) => {
     nom: {
       type: DataTypes.STRING,
       allowNull: false,
-  
       validate: {
         notEmpty: { msg: "Le nom ne peut pas être vide."},
         notNull: {msg: "Le nom est une propriété requise."}
@@ -20,10 +19,10 @@ module.exports = (sequelize, DataTypes) => {
     prenom: {
       type: DataTypes.STRING,
       allowNull: false,
-    validate: {
-      notEmpty: { msg: "Le prénom ne peut pas être vide."},
-      notNull: {msg: "Le prénom est une propriété requise."}
-    }
+      validate: {
+        notEmpty: { msg: "Le prénom ne peut pas être vide."},
+        notNull: {msg: "Le prénom est une propriété requise."}
+      }
     },
     email: {
       type: DataTypes.STRING,
@@ -55,14 +54,19 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     role_id: {
-      type: DataTypes.INTEGER
-    }
-  },{
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: Role,
+          key: 'id'
+        }
+    },{
       timestamps: true,
       createdAt: 'created',
       updatedAt: 'created'
     }
-  );
+  })
+
   // User.belongsTo(Role, {
   //   foreignKey: 'role_id',
   //   targetKey: 'id'
